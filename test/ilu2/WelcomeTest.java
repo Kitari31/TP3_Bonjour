@@ -2,39 +2,82 @@ package ilu2;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class WelcomeTest {
+	Welcome bonjour;
+	
+	@BeforeEach
+	void start() {
+		bonjour = new Welcome();
+	}
+	
+	@Test
+	void EX_1() {
+		assertEquals("Hello, Marc", bonjour.welcome("Marc"));
+	}
+	
+	@Test
+	void EX_2() {
+		assertEquals("Hello, my friend", bonjour.welcome("    "));
+	}
+	
+	@Test
+	void EX_3() {
+		assertEquals("Hello, JERRY !", bonjour.welcome("JERRY"));
+	}
 
 	@Test
-	void testExo1() {
-		assertEquals(Welcome.welcome("bob"),"Hello, Bob");
-		assertEquals(Welcome.welcome("marie"),"Hello, Marie");
-		assertEquals(Welcome.welcome("julien"),"Hello, Julien");
+	void EX_4() {
+		assertEquals("Hello, Amy and Bob", bonjour.welcome("amy,bob"));
+		//Test name to lowercase
+		assertEquals("Hello, Marc", bonjour.welcome("marc"));
+		//Test name==null
+		assertEquals("Hello, my friend", bonjour.welcome(null));
 	}
 	
 	@Test
-	void testExo2() {
-		assertEquals(Welcome.welcome(null),"Hello, my friend");
-		assertEquals(Welcome.welcome("     "),"Hello, my friend");
+	void EX_5() {
+		assertEquals("Hello, Amy, Bob and Jerry", bonjour.welcome("Amy,bob,jerry"));
+		assertEquals("Hello, Amy, Bob and Jerry", bonjour.welcome("amy,bob,jerry"));
 	}
 	
 	@Test
-	void testExo3() {
-		assertEquals(Welcome.welcome("JERRY"),"HELLO, JERRY");
-		assertEquals(Welcome.welcome("MARIE"),"HELLO, MARIE");
-		assertEquals(Welcome.welcome("BOB"),"HELLO, BOB");
+	void EX_6() {
+		assertEquals("Hello, Amy and Jerry. AND HELLO, BOB !", bonjour.welcome("Amy,BOB,Jerry"));
+		assertEquals("Hello, Amy and Jerry. AND HELLO, BOB !", bonjour.welcome("amy,BOB,Jerry"));
+	}
+	
+	@Test
+	void EX_7() {
+		assertEquals("Hello, Bob, Amy and Jerry", bonjour.welcome("bob,amy,jerry"));
+		assertEquals("Hello, Bob and Jerry. AND HELLO, AMY AND JACK !",bonjour.welcome("bob,AMY,jerry,JACK"));
+	}
+	
+	@Test
+	void EX_8() {
+		assertEquals("Hello, Bob and Amy", bonjour.welcome("bob , amy "));
+		assertEquals("Hello, Bob and Amy. AND HELLO, JERRY AND JACK !", bonjour.welcome("bob , amy ,  JERRY,JACK"));
+	}
+	
+	@Test
+	void EX_9() {
+		//Test l'exercice 8 mais avec qu'un seul nom en majuscule
+		assertEquals("Hello, Bob and Amy. AND HELLO, JERRY !", bonjour.welcome("bob, amy,    JERRY"));
+		//Test normal
+		assertEquals("Hello, Bob(x3) and Amy. AND HELLO, JERRY(x2) !", bonjour.welcome("bob, JERRY, amy, bob,   JERRY, bob"));
+		assertEquals("Hello, Bob(x4). AND HELLO, JERRY AND AMY(x2) !", bonjour.welcome("bob, JERRY, bob,bob,AMY,bob,AMY"));
+	}
+	
+	@Test
+	void EX_10() {
+		assertEquals("Bob, Yoda and Amy, Hello. AND HELLO, JERRY !", bonjour.welcome("bob, yoda, amy, JERRY"));
+		assertEquals("Hello, Bob and Amy. AND YODA(x2) AND JERRY, HELLO !", bonjour.welcome("bob, YODA, amy, JERRY, YODA"));
+		assertEquals("Yoda, Hello. AND HELLO, JERRY !", bonjour.welcome("yoda, JERRY"));
+		assertEquals("Hello, Bob. AND YODA, HELLO !", bonjour.welcome("bob,YODA"));
+		
+		
 	}
 
-	@Test
-	void TestExo4() {
-		assertEquals(Welcome.welcome("amy,bob"),"Hello, Amy, Bob");
-		assertEquals(Welcome.welcome("marie,damien"),"Hello, Marie, Damien");
-	}
-	
-	@Test
-	void TestExo5() {
-		assertEquals(Welcome.welcome("amy,bob,julien"),"Hello, Amy, Bob, Julien");
-		assertEquals(Welcome.welcome("marie,damien,clement,laura"),"Hello, Marie, Damien, Clement, Laura");
-	}
 }
